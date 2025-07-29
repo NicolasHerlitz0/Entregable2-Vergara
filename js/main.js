@@ -1,3 +1,5 @@
+// Variables
+
 const dolar = 1;
 const divisas = [
   { name: "BTC", valor: 2 },
@@ -5,7 +7,6 @@ const divisas = [
   { name: "LTC", valor: 0.5 },
 ];
 
-// Variables
 const mensaje = document.getElementById("mensaje");
 const selectTipo = document.getElementById("selectTipo");
 const selectMoneda = document.getElementById("selectMoneda");
@@ -13,7 +14,6 @@ const inputMonto = document.getElementById("inputMonto");
 const btnConfirmar = document.getElementById("btnConfirmar");
 const listaHistorial = document.getElementById("listaHistorial");
 const btnLimpiarHistorial = document.getElementById("btnLimpiarHistorial");
-
 
 let tipoOperacionSeleccionada = null;
 let monedaSeleccionada = null;
@@ -25,12 +25,10 @@ const comisionDolar = (a) => Number((a - a * 0.015).toFixed(4));
 const divisas_dolar = (a, b) => a / b;
 const comisionDivisas = (a) => Number((a - a * 0.03).toFixed(4));
 
-
 function mostrarMensaje(texto, tipo = "info") {
   mensaje.textContent = texto;
   mensaje.className = tipo;
 }
-
 
 function mostrarHistorialEnDOM() {
   listaHistorial.innerHTML = "";
@@ -42,7 +40,7 @@ function mostrarHistorialEnDOM() {
     return;
   }
 
-  historialOperaciones.forEach(op => {
+  historialOperaciones.forEach((op) => {
     const li = document.createElement("li");
 
     if (op.tipo === "usd-crypto") {
@@ -54,7 +52,6 @@ function mostrarHistorialEnDOM() {
     listaHistorial.appendChild(li);
   });
 }
-
 
 function limpiarHistorial() {
   historialOperaciones = [];
@@ -74,17 +71,28 @@ function limpiarHistorial() {
   inputMonto.disabled = true;
   btnConfirmar.disabled = true;
 
-  setTimeout(() => { mensaje.textContent = "Interfaz reiniciada. Seleccione una operación."; }, 1000);
+  setTimeout(() => {
+    mensaje.textContent = "Interfaz reiniciada. Seleccione una operación.";
+  }, 1000);
 }
 
-function operacionDeCambio(nombreMoneda1, funcionDeConversion, comision, nombreMoneda2, monto) {
+function operacionDeCambio(
+  nombreMoneda1,
+  funcionDeConversion,
+  comision,
+  nombreMoneda2,
+  monto
+) {
   if (!monto || isNaN(monto) || monto <= 0) {
     mostrarMensaje("Monto inválido. Intente nuevamente.", "error");
     return null;
   }
 
   const montoCompra = comision(funcionDeConversion(monto));
-  mostrarMensaje(`¡FELICIDADES! Usted ha comprado ${montoCompra} ${nombreMoneda2}`, "success");
+  mostrarMensaje(
+    `¡FELICIDADES! Usted ha comprado ${montoCompra} ${nombreMoneda2}`,
+    "success"
+  );
 
   operacionEnCurso = false;
   inputMonto.value = "";
@@ -92,15 +100,14 @@ function operacionDeCambio(nombreMoneda1, funcionDeConversion, comision, nombreM
   return montoCompra;
 }
 
-
 function ejecutarOperacion(montoIngresado) {
   let resultadoOperacion;
-  const idxDivisa = monedaSeleccionada === 'BTC' ? 0 :
-                    monedaSeleccionada === 'ETH' ? 1 : 2;
+  const idxDivisa =
+    monedaSeleccionada === "BTC" ? 0 : monedaSeleccionada === "ETH" ? 1 : 2;
   const divisa = divisas[idxDivisa];
 
   switch (tipoOperacionSeleccionada) {
-    case 'usd-crypto':
+    case "usd-crypto":
       resultadoOperacion = operacionDeCambio(
         "USD",
         (monto) => dolar_divisas(monto, divisa.valor),
@@ -110,7 +117,7 @@ function ejecutarOperacion(montoIngresado) {
       );
       break;
 
-    case 'crypto-usd':
+    case "crypto-usd":
       resultadoOperacion = operacionDeCambio(
         divisa.name,
         (monto) => divisas_dolar(monto, divisa.valor),
@@ -131,7 +138,7 @@ function ejecutarOperacion(montoIngresado) {
       moneda: monedaSeleccionada,
       monto: montoIngresado,
       resultado: resultadoOperacion,
-      fecha: new Date().toLocaleString()
+      fecha: new Date().toLocaleString(),
     };
 
     historialOperaciones.push(operacion);
@@ -139,7 +146,6 @@ function ejecutarOperacion(montoIngresado) {
     mostrarHistorialEnDOM();
   }
 }
-
 
 function mostrarConfirmacion(montoIngresado) {
   if (operacionEnCurso) return;
@@ -159,31 +165,32 @@ function mostrarConfirmacion(montoIngresado) {
     <button id="btnNo">Cancelar</button>
   `;
 
-  document.getElementById("btnYes").addEventListener("click", () => ejecutarOperacion(montoIngresado));
+  document
+    .getElementById("btnYes")
+    .addEventListener("click", () => ejecutarOperacion(montoIngresado));
   document.getElementById("btnNo").addEventListener("click", () => {
     mostrarMensaje("Operación cancelada.", "info");
     operacionEnCurso = false;
   });
 }
 
-
 function run() {
   mostrarHistorialEnDOM();
 
-  selectTipo.addEventListener('change', () => {
+  selectTipo.addEventListener("change", () => {
     tipoOperacionSeleccionada = selectTipo.value;
     selectMoneda.disabled = false;
     mostrarMensaje("Seleccione la moneda deseada.", "info");
   });
 
-  selectMoneda.addEventListener('change', () => {
+  selectMoneda.addEventListener("change", () => {
     monedaSeleccionada = selectMoneda.value;
     inputMonto.disabled = false;
     btnConfirmar.disabled = false;
     mostrarMensaje("Ingrese el monto y confirme la operación.", "info");
   });
 
-  btnConfirmar.addEventListener('click', () => {
+  btnConfirmar.addEventListener("click", () => {
     const montoIngresado = Number(inputMonto.value);
 
     if (!tipoOperacionSeleccionada) {
@@ -202,7 +209,7 @@ function run() {
     mostrarConfirmacion(montoIngresado);
   });
 
-  btnLimpiarHistorial.addEventListener('click', limpiarHistorial);
+  btnLimpiarHistorial.addEventListener("click", limpiarHistorial);
 }
 
 // Inicio del programa

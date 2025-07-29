@@ -6,12 +6,18 @@ function cargarHistorial() {
     historialOperaciones = JSON.parse(datos);
   } else {
     historialOperaciones = [];
-    localStorage.setItem("historialOperaciones", JSON.stringify(historialOperaciones));
+    localStorage.setItem(
+      "historialOperaciones",
+      JSON.stringify(historialOperaciones)
+    );
   }
 }
 
 function guardarHistorial() {
-  localStorage.setItem("historialOperaciones", JSON.stringify(historialOperaciones));
+  localStorage.setItem(
+    "historialOperaciones",
+    JSON.stringify(historialOperaciones)
+  );
 }
 
 // Inicialización automática
