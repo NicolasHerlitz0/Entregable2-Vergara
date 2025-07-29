@@ -93,6 +93,54 @@ function operacionDeCambio(nombreMoneda1, funcionDeConversion, comision, nombreM
   return montoCompra;
 }
 
+// Ejecuta la operación tras confirmación usando SWITCH
+function ejecutarOperacion(montoIngresado) {
+  let resultadoOperacion;
+  const idxDivisa = monedaSeleccionada === 'BTC' ? 0 :
+                    monedaSeleccionada === 'ETH' ? 1 : 2;
+  const divisa = divisas[idxDivisa];
+
+  switch (tipoOperacionSeleccionada) {
+    case 'usd-crypto':
+      resultadoOperacion = operacionDeCambio(
+        "USD",
+        (monto) => dolar_divisas(monto, divisa.valor),
+        comisionDolar,
+        divisa.name,
+        montoIngresado
+      );
+      break;
+
+    case 'crypto-usd':
+      resultadoOperacion = operacionDeCambio(
+        divisa.name,
+        (monto) => divisas_dolar(monto, divisa.valor),
+        comisionDivisas,
+        "USD",
+        montoIngresado
+      );
+      break;
+
+    default:
+      mostrarMensaje("Tipo de operación no válido.", "error");
+      return;
+  }
+
+  if (resultadoOperacion) {
+    const operacion = {
+      tipo: tipoOperacionSeleccionada,
+      moneda: monedaSeleccionada,
+      monto: montoIngresado,
+      resultado: resultadoOperacion,
+      fecha: new Date().toLocaleString()
+    };
+
+    historialOperaciones.push(operacion);
+    guardarHistorial();
+    mostrarHistorialEnDOM();
+  }
+}
+
 // Muestra confirmación de la operación antes de ejecutarla
 function mostrarConfirmacion(montoIngresado) {
   if (operacionEnCurso) return;
@@ -117,47 +165,6 @@ function mostrarConfirmacion(montoIngresado) {
     mostrarMensaje("Operación cancelada.", "info");
     operacionEnCurso = false;
   });
-}
-
-// Ejecuta la operación tras confirmación
-function ejecutarOperacion(montoIngresado) {
-  const idxDivisa = monedaSeleccionada === 'BTC' ? 0 :
-                    monedaSeleccionada === 'ETH' ? 1 : 2;
-  const divisa = divisas[idxDivisa];
-
-  let resultadoOperacion;
-
-  if (tipoOperacionSeleccionada === 'usd-crypto') {
-    resultadoOperacion = operacionDeCambio(
-      "USD",
-      (monto) => dolar_divisas(monto, divisa.valor),
-      comisionDolar,
-      divisa.name,
-      montoIngresado
-    );
-  } else {
-    resultadoOperacion = operacionDeCambio(
-      divisa.name,
-      (monto) => divisas_dolar(monto, divisa.valor),
-      comisionDivisas,
-      "USD",
-      montoIngresado
-    );
-  }
-
-  if (resultadoOperacion) {
-    const operacion = {
-      tipo: tipoOperacionSeleccionada,
-      moneda: monedaSeleccionada,
-      monto: montoIngresado,
-      resultado: resultadoOperacion,
-      fecha: new Date().toLocaleString()
-    };
-
-    historialOperaciones.push(operacion);
-    guardarHistorial();
-    mostrarHistorialEnDOM();
-  }
 }
 
 // Flujo principal
