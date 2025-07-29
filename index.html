@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Casa de Cambio Digital</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <header>
+    <h1>CASA DE CAMBIO DIGITAL</h1>
+    <p>Simulador interactivo para comprar y vender criptomonedas usando USD.</p>
+  </header>
+
+  <main>
+    <section id="operacion">
+      <h2>Selecciona tu operación</h2>
+      
+      <div id="tipoOperacion">
+        <label for="selectTipo">Tipo de Operación:</label>
+        <select id="selectTipo">
+          <option value="" selected disabled>Seleccione una opción</option>
+          <option value="usd-crypto">Comprar Crypto con USD</option>
+          <option value="crypto-usd">Vender Crypto por USD</option>
+        </select>
+      </div>
+
+      <div id="seleccionMoneda">
+        <label for="selectMoneda">Moneda:</label>
+        <select id="selectMoneda">
+          <option value="" selected disabled>Seleccione una moneda</option>
+          <option value="BTC">Bitcoin (BTC)</option>
+          <option value="ETH">Ethereum (ETH)</option>
+          <option value="LTC">Litecoin (LTC)</option>
+        </select>
+      </div>
+
+      <div id="ingresoMonto">
+        <label for="inputMonto">Monto:</label>
+        <input type="number" id="inputMonto" min="0.01" step="0.01" placeholder="Ingrese monto">
+        <button id="btnConfirmar">Confirmar Operación</button>
+      </div>
+    </section>
+
+    <section id="resultado">
+      <h2>Resultado</h2>
+      <p id="mensaje"></p>
+    </section>
+
+    <section id="historial">
+      <h2>Historial de Operaciones</h2>
+      <button id="btnLimpiarHistorial">Limpiar Historial</button>
+      <ul id="listaHistorial"></ul>
+    </section>
+  </main>
+
+  <script src="js/storage.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

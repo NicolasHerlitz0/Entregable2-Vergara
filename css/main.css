@@ -1,0 +1,77 @@
+/* Reset básico */
+body, h1, h2, p, ul {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: lightsteelblue;
+  color: black;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+main {
+  background-color: white;
+  padding: 15px;
+  border: 1px solid gray;
+  width: 90%;
+  max-width: 600px;
+  margin: auto;
+}
+
+section {
+  margin-bottom: 20px;
+}
+
+#operacion label {
+  display: block;
+  margin: 8px 0 4px;
+}
+
+#operacion select,
+#operacion input {
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+#btnConfirmar {
+  width: 100%;
+  padding: 8px;
+  background-color: royalblue;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#btnConfirmar:hover {
+  background-color: mediumblue;
+}
+
+#resultado {
+  padding: 10px;
+  border: 1px solid gray;
+  background-color: lavender;
+}
+
+#resultado h2 {
+  margin-bottom: 8px;
+}
+
+#historial ul {
+  list-style: none;
+}
+
+#historial li {
+  background-color: whitesmoke;
+  margin: 4px 0;
+  padding: 6px;
+  border: 1px solid lightgray;
+}
